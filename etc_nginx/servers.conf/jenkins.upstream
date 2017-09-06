@@ -1,0 +1,4 @@
+ 
+    upstream jenkins {
+        server jenkins:8080;
+    }  

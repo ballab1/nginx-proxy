@@ -1,0 +1,5 @@
+ 
+    upstream printer {
+        server unix:/var/run/cups/cups.sock;
+        #server 127.0.0.1:643;
+    }  

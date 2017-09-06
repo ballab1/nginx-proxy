@@ -1,0 +1,5 @@
+if ($redir_target ~* ^(.*)@(.*)) { set $redir_action $1; set $redir_url $2; }
+if ($redir_action = "static")    { rewrite ^ /301-static.html      last; }
+if ($redir_action = "refresh")   { rewrite ^ /301-refresh.html     last; }
+if ($redir_action = "redirect")  { rewrite ^ $redir_url permanent; break;
+    access_log /var/log/nginx/redirector.log redirect;}

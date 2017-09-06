@@ -1,0 +1,4 @@
+ 
+    upstream zen {
+        server zen:8003;
+    }  

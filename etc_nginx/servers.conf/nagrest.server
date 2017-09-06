@@ -1,0 +1,27 @@
+server {
+    listen 8004 default_server;
+    listen [::]:8004 default_server ipv6only=on;
+
+    server_name nagrest;
+
+    access_log      /var/log/nginx/nagrest.access.log;
+    error_log       /var/log/nginx/nagrest.error.log info;
+
+    root     /var/www/nagrest;
+
+    rewrite /nagrest/(.*)$ /$1 last;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # pass the PHP scripts to php-fpm server
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+        fastcgi_index index.php;
+        fastcgi_pass php;
+    }
+} 

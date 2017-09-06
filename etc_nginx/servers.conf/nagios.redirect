@@ -1,0 +1,6 @@
+
+    location ^~ /nagios/ {
+        proxy_pass         http://nagios;
+        proxy_redirect     default;
+        include /etc/nginx/proxy_params;
+    }

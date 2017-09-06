@@ -1,0 +1,6 @@
+
+    location ^~ /printer/ {
+        proxy_pass         http://printer/;
+        proxy_redirect     default;
+        include /etc/nginx/proxy_params;
+    }

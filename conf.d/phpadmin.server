@@ -1,0 +1,5 @@
+server {
+    server_name phpadmin;
+
+    include /etc/nginx/conf.d/phpadmin.redirect; 
+} 

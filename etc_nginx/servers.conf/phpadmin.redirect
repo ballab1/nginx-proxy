@@ -1,0 +1,6 @@
+
+    location ^~ /phpadmin/ {
+        proxy_pass         http://phpadmin:8002;
+        proxy_redirect     default;
+        include /etc/nginx/proxy_params;
+    }

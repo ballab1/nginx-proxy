@@ -1,0 +1,5 @@
+    location ^~ /logalyze/ {
+        proxy_pass         http://logalyze;
+        proxy_redirect     default;
+        include /etc/nginx/proxy_params;
+    }
