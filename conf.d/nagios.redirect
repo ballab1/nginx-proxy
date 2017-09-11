@@ -1,0 +1,19 @@
+
+    location ^~ /nagios/ {
+        proxy_pass         http://nagios:8003/;
+        proxy_redirect     default;
+        
+        include /etc/nginx/proxy_params;
+
+#	rewrite /nagios/(.*)$ /$1 last;
+
+	# pass the PHP scripts to php-fpm server
+#	location ~ \.php {
+#	    try_files $uri =404;
+#	    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+#	    include fastcgi_params;
+#	    fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+#	    fastcgi_index index.php;
+#	    fastcgi_pass php;
+#	}
+    }
