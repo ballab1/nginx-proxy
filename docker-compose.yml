@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+    nginx:
+        build:
+            context: ../nginx
+            args:
+                TZ: "America/New_York"
+        image: nginx:20170916
+        container_name: nginx
+        hostname: nginx
+        restart: unless-stopped
+        environment:
+            TZ: "America/New_York"
+        links:
+           - jenkins
+           - phpadmin
+           - nagios
+        volumes:
+            - ../nginx/conf.d:/etc/nginx/conf.d
+            - ../www:/www
+        ports:
+            - 80:80
+            - 443:443
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "10m"
+                max-file: "3"
