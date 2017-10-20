@@ -1,9 +1,0 @@
-
-    location ^~ /photos/ {
-        send_timeout 3600;
-        proxy_read_timeout 3600;
-        proxy_pass         http://zenphoto;
-        proxy_redirect     default;
-        include /etc/nginx/proxy_params;
-    }
-

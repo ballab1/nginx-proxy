@@ -1,5 +1,0 @@
- 
-    # Upstream to abstract back-end connection(s) for fcgiwrap
-    upstream fcgiwrap {
-        server unix:/var/run/fcgiwrap.socket;
-    }  

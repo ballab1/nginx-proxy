@@ -1,5 +1,4 @@
 server {
     server_name     jenkins;
-
     include /etc/nginx/conf.d/jenkins.redirect; 
 }

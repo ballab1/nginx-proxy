@@ -1,6 +1,0 @@
- 
-    # Upstream to abstract back-end connection(s) for PHP
-    upstream phpfpm {
-        fastcgi_pass phpfpm:9000;
-        #server unix:/var/run/php5-fpm.sock;
-    }  

@@ -1,4 +1,0 @@
- 
-    upstream unsecure {
-        server nginx:80;
-    }  

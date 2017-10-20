@@ -1,5 +1,5 @@
   location /phpadmin {
-    proxy_pass http://phpadmin:8002;
-    proxy_redirect https://localhost/phpadmin/ http://phpadmin:8002/;
+    proxy_pass http://phpadmin:80;
+    proxy_redirect https://localhost/phpadmin/ http://phpadmin:80/;
     include /etc/nginx/proxy_params;
   }

@@ -1,6 +1,0 @@
-
-#   location ^~ /nagrest/ {
-#       proxy_pass         http://nagrest;
-#       proxy_redirect     default;
-#       include /etc/nginx/proxy_params;
-#   }
