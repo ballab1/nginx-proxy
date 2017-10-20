@@ -5,7 +5,7 @@ ARG TZ=UTC
 #
 # PACKAGES
 #
-COPY etc_nginx.tar /tmp/etc_nginx.tar
+COPY etc_nginx.tgz /tmp/etc_nginx.tgz
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 
 RUN set -e \
@@ -29,7 +29,7 @@ RUN set -e \
     && mkdir -p /nginx/tmp \
     && chown -R nginx:nginx /nginx \
     && rm -rf /etc/nginx/* \
-    && tar -xvf /tmp/etc_nginx.tar -C /etc/nginx \
+    && tar -xvzf /tmp/etc_nginx.tgz -C /etc/nginx \
     && cd /etc/nginx/ssl \
     && openssl genrsa -des3 -passout pass:x -out server.pass.key 2048 \
     && openssl rsa -passin pass:x -in server.pass.key -out server.key \
