@@ -1,5 +1,5 @@
-  location /nagios/ {
-    proxy_pass http://nagios:8003/;
-    proxy_redirect https://localhost/nagios/ http://nagios:8003/;
+  location /nagios {
+    proxy_pass http://nagios:80;
+    proxy_redirect https://localhost/nagios/ http://nagios:80/;
     include /etc/nginx/proxy_params;
   }
