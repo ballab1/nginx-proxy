@@ -1,5 +1,6 @@
-  location /nconf {
-    proxy_pass http://nagios:80/nconf;
-    proxy_redirect https://localhost/nconf/ http://nagios:80/nconf/;
-    include /etc/nginx/proxy_params;
+  location /nconf/ {
+    proxy_pass http://nagios/nconf/;
+    proxy_set_header   Host             $host:$server_port;
+    proxy_set_header   X-Real-IP        $remote_addr;
+    proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
   }

@@ -30,6 +30,7 @@ RUN set -e \
     && chown -R nginx:nginx /nginx \
     && rm -rf /etc/nginx/* \
     && tar -xvzf /tmp/etc_nginx.tgz -C /etc/nginx \
+    && mkdir -p /etc/nginx/ssl \
     && cd /etc/nginx/ssl \
     && openssl genrsa -des3 -passout pass:x -out server.pass.key 2048 \
     && openssl rsa -passin pass:x -in server.pass.key -out server.key \
@@ -39,8 +40,8 @@ RUN set -e \
     && openssl x509 -req -sha256 -days 300065 -in server.csr -signkey server.key -out server.crt
 
 
-RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-    && ln -sf /dev/stderr /var/log/nginx/error.log
+#RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+#    && ln -sf /dev/stderr /var/log/nginx/error.log
 
 #
 # RUN NGINX

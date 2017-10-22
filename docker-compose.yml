@@ -12,12 +12,9 @@ services:
         restart: unless-stopped
         environment:
             TZ: "America/New_York"
-        links:
-           - jenkins
-           - phpadmin
-           - nagios
         volumes:
             - ../nginx/conf.d:/etc/nginx/conf.d
+            - ../nginx/log:/var/log/nginx
             - ../www:/www
         ports:
             - 80:80

@@ -1,6 +1,6 @@
     # Convert inbound WAN requests for https://domain.tld/jenkins/ to 
-    # local network requests for http://jenkins:8080/jenkins/
-    proxy_pass http://jenkins:8080/jenkins;
+    # local network requests for http://jenkins/jenkins/
+    proxy_pass http://jenkins/jenkins;
     
     # Rewrite HTTPS requests from WAN to HTTP requests on LAN
     proxy_redirect http:// https://;
