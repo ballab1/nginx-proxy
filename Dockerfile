@@ -1,12 +1,16 @@
 FROM alpine:3.6
 
 ARG TZ=UTC
+ARG user=nginx
+ARG group=nginx
+ARG uid=10777
+ARG gid=10777
 
 #
 # PACKAGES
 #
 COPY etc_nginx.tgz /tmp/etc_nginx.tgz
-COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN set -e \
     && apk update \
@@ -19,9 +23,9 @@ RUN set -e \
             nginx \
             shadow \
             openssl \
-    && chmod u+rx,g+rx,o+rx,a-w /opt/docker-entrypoint.sh \
-    && usermod -u 10777 nginx \
-    && groupmod -g 10777 nginx \
+    && chmod u+rx,g+rx,o+rx,a-w /docker-entrypoint.sh \
+    && usermod -u ${uid} ${user} \
+    && groupmod -g ${gid} ${group} \
     && mkdir -p /www \
     && mkdir -p /opt/ssl \
     && chown -R nginx:nginx /opt \
@@ -51,5 +55,5 @@ EXPOSE 80
 EXPOSE 443
 VOLUME ["/www"]
 WORKDIR /www/
-ENTRYPOINT ["/opt/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
