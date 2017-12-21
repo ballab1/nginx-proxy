@@ -1,1 +1,5 @@
-log
+README.md
+docker-conmpose.yml
+.git*
+.lfs*
+vols/*
