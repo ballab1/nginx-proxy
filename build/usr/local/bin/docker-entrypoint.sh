@@ -10,4 +10,4 @@ if [ "$1" = 'nginx' ]; then
     nginx -g "daemon off;"
 else
     exec $@
-fi 
+fi

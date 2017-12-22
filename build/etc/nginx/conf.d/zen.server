@@ -1,0 +1,4 @@
+server {
+    server_name     zen;
+    include /etc/nginx/conf.d/zen.redirect; 
+}

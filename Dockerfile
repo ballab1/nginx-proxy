@@ -1,38 +1,29 @@
 FROM alpine:3.6
 
-ARG TZ=America/New_York
-ARG nginx_user=nginx
-ARG nginx_group=nginx
-ARG nginx_uid=1001
-ARG nginx_gid=1001
+ARG TZ="America/New_York"
 
-ENV NGINX_PKGS="bash nginx shadow openssl tzdata"
+ENV VERSION=1.0.0 \
+    TZ="America/New_York"
+    
+LABEL version=$VERSION
 
-#
-# PACKAGES
-#
-COPY build /tmp/ 
+# Add configuration and customizations
+COPY build /tmp/
 
-RUN set -o errexit \
-    \
+# build content
+RUN set -o verbose \
     && apk update \
-    && apk add --no-cache $NGINX_PKGS \
-    \
-    && echo $TZ > /etc/TZ \
-    && cp /usr/share/zoneinfo/$TZ /etc/timezone \
-    && cp /usr/share/zoneinfo/$TZ /etc/localtime \
-    \
+    && apk add --no-cache bash \
     && chmod u+rwx /tmp/build_container.sh \
     && /tmp/build_container.sh \
     && rm -rf /tmp/*
 
-#
-# RUN NGINX
-#
-#USER nginx
+# export ports for HTTP and HTTPS
 EXPOSE 80
 EXPOSE 443
+
 VOLUME ["/var/www"]
 WORKDIR /var/www/
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx"]

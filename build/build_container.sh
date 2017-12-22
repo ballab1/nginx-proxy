@@ -5,10 +5,13 @@ set -o errexit
 set -o nounset 
 #set -o verbose
 
+export TZ=America/New_York 
+
 declare TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"  
+declare -r NGINX_PKGS="bash nginx shadow openssl ca-certificates tzdata"
 
 #directories
-declare WWW=/var/www 
+declare WWW=/var/www
 
 #  groups/users
 declare nginx_user=${nginx_user:-'nginx'}
@@ -56,14 +59,28 @@ function die() {
 }  
 
 #############################################################################
+function installAlpinePackages()
+{
+    apk update
+    apk add --no-cache $NGINX_PKGS
+}
+
+#############################################################################
+function installTimezone()
+{
+    echo "$TZ" > /etc/TZ
+    cp /usr/share/zoneinfo/$TZ /etc/timezone
+    cp /usr/share/zoneinfo/$TZ /etc/localtime
+}
+
+#############################################################################
 function cleanup()
 {
     printf "\nclean up\n"
 }
 
-
 #############################################################################
-function configureNGINX()
+function configure_NGINX()
 {
     usermod -u ${nginx_uid} ${nginx_user}
     groupmod -g ${nginx_gid} ${nginx_group}
@@ -104,7 +121,7 @@ function createUserAndGroup()
     local wanted=$( printf '%s:%s' $group $gid )
     local nameMatch=$( getent group "${group}" | awk -F ':' '{ printf "%s:%s",$1,$3 }' )
     local idMatch=$( getent group "${gid}" | awk -F ':' '{ printf "%s:%s",$1,$3 }' )
-    printf "group/gid (%s):  is currently (%s)/(%s)\n" "$wanted" "$nameMatch" "$idMatch"           
+    printf "\e[1;34mINFO: group/gid (%s):  is currently (%s)/(%s)\e[0m\n" "$wanted" "$nameMatch" "$idMatch"           
 
     if [[ $wanted != $nameMatch  ||  $wanted != $idMatch ]]; then
         printf "\ncreate group:  %s\n" $group
@@ -117,7 +134,7 @@ function createUserAndGroup()
     wanted=$( printf '%s:%s' $user $uid )
     nameMatch=$( getent passwd "${user}" | awk -F ':' '{ printf "%s:%s",$1,$3 }' )
     idMatch=$( getent passwd "${uid}" | awk -F ':' '{ printf "%s:%s",$1,$3 }' )
-    printf "user/uid (%s):  is currently (%s)/(%s)\n" "$wanted" "$nameMatch" "$idMatch"    
+    printf "\e[1;34mINFO: user/uid (%s):  is currently (%s)/(%s)\e[0m\n" "$wanted" "$nameMatch" "$idMatch"    
     
     if [[ $wanted != $nameMatch  ||  $wanted != $idMatch ]]; then
         printf "create user: %s\n" $user
@@ -129,7 +146,7 @@ function createUserAndGroup()
 }
 
 #############################################################################
-function installCUSTOMIZATIONS()
+function install_CUSTOMIZATIONS()
 {
     printf "\nAdd configuration and customizations\n"
     cp -r "${TOOLS}/etc"/* /etc
@@ -143,7 +160,7 @@ function installCUSTOMIZATIONS()
         ln -s /var/log /var/lib/nginx/logs
     fi
 
-    [[ -d /sessions ]]    || mkdir -p /sessions
+#    [[ -d /sessions ]]    || mkdir -p /sessions
     [[ -d /run/nginx ]]   || mkdir -p /run/nginx
 }
 
@@ -152,9 +169,6 @@ function installCUSTOMIZATIONS()
 function setPermissions()
 {
     printf "\nmake sure that ownership & permissions are correct\n"
-
-#    chown root:root /etc/sudoers.d/*
-#    chmod 600 /etc/sudoers.d/*
 
     chmod u+rx,g+rx,o+rx,a-w /usr/local/bin/docker-entrypoint.sh
 
@@ -173,10 +187,12 @@ trap catch_pipe PIPE
 
 set -o verbose
 
+installAlpinePackages
+installTimezone
 #createUserAndGroup "${nginx_user}" "${nginx_uid}" "${nginx_group}" "${nginx_gid}" "${WWW}" /sbin/nologin
 createUserAndGroup "${www_user}" "${www_uid}" "${www_group}" "${www_gid}" "${WWW}" /sbin/nologin
-configureNGINX
-installCUSTOMIZATIONS
+configure_NGINX
+install_CUSTOMIZATIONS
 setPermissions
 cleanup
 exit 0

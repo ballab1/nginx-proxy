@@ -5,7 +5,7 @@ services:
             context: ../nginx
             args:
                 TZ: "America/New_York"
-        image: nginx:20171219
+        image: nginx:20171222
         container_name: nginx
         hostname: nginx
         restart: unless-stopped
