@@ -5,9 +5,12 @@ set -o errexit
 set -o nounset 
 #set -o verbose
 
-export TZ=America/New_York 
+declare -r CONTAINER='NGINX'
 
+export TZ=America/New_York 
 declare TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"  
+
+
 declare -r NGINX_PKGS="bash nginx shadow openssl ca-certificates tzdata"
 
 #directories
@@ -57,21 +60,6 @@ function die() {
     printf "%s\n" "FATAL ERROR" "$@" >&2
     exit $status
 }  
-
-#############################################################################
-function installAlpinePackages()
-{
-    apk update
-    apk add --no-cache $NGINX_PKGS
-}
-
-#############################################################################
-function installTimezone()
-{
-    echo "$TZ" > /etc/TZ
-    cp /usr/share/zoneinfo/$TZ /etc/timezone
-    cp /usr/share/zoneinfo/$TZ /etc/localtime
-}
 
 #############################################################################
 function cleanup()
@@ -146,6 +134,13 @@ function createUserAndGroup()
 }
 
 #############################################################################
+function header()
+{
+    local -r bars='+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+    printf "\n\n\e[1;34m%s\nBuilding container: \e[0m%s\e[1;34m\n%s\e[0m\n" $bars $CONTAINER $bars
+}
+ 
+#############################################################################
 function install_CUSTOMIZATIONS()
 {
     printf "\nAdd configuration and customizations\n"
@@ -164,6 +159,20 @@ function install_CUSTOMIZATIONS()
     [[ -d /run/nginx ]]   || mkdir -p /run/nginx
 }
 
+#############################################################################
+function installAlpinePackages()
+{
+    apk update
+    apk add --no-cache $NGINX_PKGS
+}
+
+#############################################################################
+function installTimezone()
+{
+    echo "$TZ" > /etc/TZ
+    cp /usr/share/zoneinfo/$TZ /etc/timezone
+    cp /usr/share/zoneinfo/$TZ /etc/localtime
+}
 
 #############################################################################
 function setPermissions()
@@ -178,7 +187,6 @@ function setPermissions()
     chown "${www_user}":"${www_group}" -R "${WWW}"
 }
 
-
 #############################################################################
 
 trap catch_error ERR
@@ -187,6 +195,7 @@ trap catch_pipe PIPE
 
 set -o verbose
 
+header
 installAlpinePackages
 installTimezone
 #createUserAndGroup "${nginx_user}" "${nginx_uid}" "${nginx_group}" "${nginx_gid}" "${WWW}" /sbin/nologin
