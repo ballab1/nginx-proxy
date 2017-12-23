@@ -155,7 +155,6 @@ function install_CUSTOMIZATIONS()
         ln -s /var/log /var/lib/nginx/logs
     fi
 
-#    [[ -d /sessions ]]    || mkdir -p /sessions
     [[ -d /run/nginx ]]   || mkdir -p /run/nginx
 }
 
