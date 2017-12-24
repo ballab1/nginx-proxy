@@ -1,0 +1,3 @@
+    upstream default {
+        server nginx:443;
+    } 

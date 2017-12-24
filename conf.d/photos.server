@@ -1,4 +1,0 @@
-server {
-    server_name     zen;
-    include /etc/nginx/conf.d/photos.redirect; 
-}
