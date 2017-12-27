@@ -1,9 +1,6 @@
   location /nagios/nconf/ {
       return   404;
   }
-  location /nagios/nconf {
-      return   404;
-  }
 
   location /nagios/ {
     proxy_pass http://nagios/nagios;
