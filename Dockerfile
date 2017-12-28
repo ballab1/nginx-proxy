@@ -25,9 +25,5 @@ EXPOSE 443
 VOLUME ["/var/www"]
 WORKDIR /var/www/
 
-<<<<<<< HEAD
 ENTRYPOINT ["docker-entrypoint.sh"]
-=======
-ENTRYPOINT ["/docker-entrypoint.sh"]
->>>>>>> 608f53f
 CMD ["nginx"]
