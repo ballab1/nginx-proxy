@@ -1,5 +1,7 @@
 FROM alpine:3.6
 
+ARG TZ="America/New_York"
+
 ENV VERSION=1.0.0 \
     TZ="America/New_York"
     
