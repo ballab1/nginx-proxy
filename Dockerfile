@@ -1,22 +1,21 @@
-FROM alpine:3.6
+ARG FROM_BASE=base_container:20180217
+FROM $FROM_BASE
 
-ARG TZ="America/New_York"
 
-ENV VERSION=1.0.0 \
-    TZ="America/New_York"
-    
-LABEL version=$VERSION
+# version of this docker image
+ARG CONTAINER_VERSION=1.0.2
+LABEL version=$CONTAINER_VERSION  
+
+ENV NAGIOS_HOME=/usr/local/nagios
 
 # Add configuration and customizations
 COPY build /tmp/
 
 # build content
 RUN set -o verbose \
-    && apk update \
-    && apk add --no-cache bash \
-    && chmod u+rwx /tmp/build_container.sh \
-    && /tmp/build_container.sh \
-    && rm -rf /tmp/*
+    && chmod u+rwx /tmp/container/build.sh \
+    && /tmp/container/build.sh 'NGINX'
+RUN rm -rf /tmp/* 
 
 # export ports for HTTP and HTTPS
 EXPOSE 80

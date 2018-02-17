@@ -4,26 +4,25 @@ services:
         build:
             context: ../nginx
             args:
-                TZ: "America/New_York"
-        image: nginx:20171222
+                CONTAINER_VERSION: 1.0.1
+                FROM_BASE: base_container:20180217
         container_name: nginx
         hostname: nginx
-        restart: unless-stopped
-        environment:
-            TZ: "America/New_York"
+        image: nginx:20180217
         links:
            - jenkins
            - phpadmin
            - nagios
            - zen
-        volumes:
-            - ../nginx/vols/log:/var/log/nginx 
-            - ../vols/www:/var/www
-        ports:
-            - 80:80
-            - 443:443
         logging:
             driver: "json-file"
             options:
                 max-size: "10m"
                 max-file: "3"
+        ports:
+            - 80:80
+            - 443:443
+#        restart: unless-stopped
+        volumes:
+            - ../nginx/vols/log:/var/log/nginx 
+            - ../vols/www:/var/www
