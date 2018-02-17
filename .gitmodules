@@ -1,0 +1,3 @@
+[submodule "build/container_lib"]
+    path = build/container_lib
+    url = ../container_lib.git

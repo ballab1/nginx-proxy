@@ -1,0 +1,2 @@
+# bginx Packages
+apk add --no-cache nginx shadow openssl ca-certificates 
