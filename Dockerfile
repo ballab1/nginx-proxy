@@ -13,8 +13,8 @@ COPY build /tmp/
 
 # build content
 RUN set -o verbose \
-    && chmod u+rwx /tmp/container/build.sh \
-    && /tmp/container/build.sh 'NGINX'
+    && chmod u+rwx /tmp/build.sh \
+    && /tmp/build.sh 'NGINX'
 RUN rm -rf /tmp/* 
 
 # export ports for HTTP and HTTPS

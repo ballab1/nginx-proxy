@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source "${TOOLS}/03.users_groups/.01.nginx"
-source "${TOOLS}/03.users_groups/02.www"
+source "${CBF['action']}/02.users_groups/.01.nginx"
+source "${CBF['action']}/02.users_groups/02.www"
 
 usermod -u ${nginx['uid']} ${nginx['user']}
 groupmod -g ${nginx['gid']} ${nginx['group']}
