@@ -1,2 +1,5 @@
 # bginx Packages
-apk add --no-cache nginx shadow openssl ca-certificates 
+
+if [ "${CBF['os_id']}" = 'alpine' ]; then
+    apk add --no-cache nginx shadow openssl ca-certificates 
+fi
