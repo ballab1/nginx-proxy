@@ -1,0 +1,4 @@
+server {
+    server_name     kafkamgr;
+    include /etc/nginx/conf.d/kafkamgr.redirect; 
+}
