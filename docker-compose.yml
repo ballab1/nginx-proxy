@@ -6,12 +6,12 @@ services:
                 CONTAINER_NAME: nginx
                 CONTAINER_VERSION: 1.0.1
                 DEBUG_TRACE: 0
-                FROM_BASE: base_container:20180217
+                FROM_BASE: base_container:20180311
             context: .
             dockerfile: Dockerfile
         container_name: nginx
         hostname: nginx
-        image: nginx:20180217
+        image: nginx:20180311
         links:
            - jenkins
            - phpadmin
@@ -20,8 +20,8 @@ services:
         logging:
             driver: json-file
             options:
-                max-size: 10m
-                max-file: 3
+                max-file: "3"
+                max-size: "10m"
         ports:
             - 80:80
             - 443:443
