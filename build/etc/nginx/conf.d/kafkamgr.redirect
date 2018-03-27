@@ -1,4 +1,4 @@
-location /kafkamgr/ {
+location /kafkamgr {
     proxy_pass http://kafkamgr/;
     proxy_connect_timeout   2;
     proxy_redirect off;
