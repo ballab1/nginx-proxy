@@ -1,3 +1,4 @@
 vols/*
 *.zip
 *.tgz
+build/container_build_framework*
