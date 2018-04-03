@@ -1,0 +1,3 @@
+upstream blue {
+    server blue:8080;
+} 

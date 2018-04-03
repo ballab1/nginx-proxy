@@ -1,0 +1,3 @@
+upstream smonitor {
+    server smonitor:80;
+} 
