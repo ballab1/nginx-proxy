@@ -1,5 +1,7 @@
-# bginx Packages
+# nginx packages
 
 if [ "${CBF['os_id']}" = 'alpine' ]; then
-    apk add --no-cache nginx shadow openssl ca-certificates 
-fi
+    declare PKGS='nginx'
+    package.checkIfInstalled "$PKGS"
+    apk add --no-cache $PKGS
+fi 
