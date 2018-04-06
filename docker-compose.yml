@@ -6,11 +6,12 @@ services:
                 CBF_VERSION: ${CBF_VERSION:-dev}
                 CONTAINER_NAME: nginx
                 CONTAINER_VERSION: 1.0.6
-                DEBUG_TRACE: 0
                 FROM_BASE: php5:latest
             context: .
             dockerfile: Dockerfile
         container_name: nginx
+        environment:
+            DEBUG_TRACE: ${DEBUG_TRACE:-0}
         hostname: nginx
         image: nginx:latest
         logging:
