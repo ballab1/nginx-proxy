@@ -1,7 +1,0 @@
-# nginx packages
-
-if [ "${CBF['os_id']}" = 'alpine' ]; then
-    declare PKGS='nginx'
-    package.checkIfInstalled "$PKGS"
-    apk add --no-cache $PKGS
-fi 
