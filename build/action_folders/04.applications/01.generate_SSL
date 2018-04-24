@@ -1,12 +1,5 @@
 #!/bin/bash
 
-source "${CBF['action']}/02.users_groups/.01.nginx"
-source "${CBF['action']}/02.users_groups/02.www"
-
-usermod -u ${nginx['uid']} ${nginx['user']}
-groupmod -g ${nginx['gid']} ${nginx['group']}
-
-mkdir -p "${WWW}"
 mkdir -p /opt/ssl
 mkdir -p /etc/nginx/ssl
 

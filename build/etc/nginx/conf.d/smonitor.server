@@ -1,0 +1,4 @@
+server {
+    server_name smonitor;
+    include /etc/nginx/conf.d/smonitor.redirect; 
+} 
