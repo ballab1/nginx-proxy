@@ -4,7 +4,16 @@
 
     # Make site accessible from http://localhost/
     server_name default;
+
+    # Make site accessible from http://localhost/
     root   /var/www;
+
+    index index.php index.html index.htm;
+
+    charset utf-8;
+
+
+
 
     include /etc/nginx/conf.d/*.ssl; 
     include /etc/nginx/conf.d/*.redirect; 
