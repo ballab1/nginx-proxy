@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# remove default homepage so we can copy our customized version over
+[ ! -e /var/www/index.html ] || rm /var/www/index.html

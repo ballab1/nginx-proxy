@@ -1,5 +1,5 @@
 server {
     server_name nagios;
-    include /etc/nginx/conf.d/nagios.redirect; 
-    include /etc/nginx/conf.d/nconf.redirect; 
+    include conf.d/nagios.redirect; 
+    include conf.d/nconf.redirect; 
 } 

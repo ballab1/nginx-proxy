@@ -1,4 +1,4 @@
 server {
     server_name grafana;
-    include /etc/nginx/conf.d/grafana.redirect; 
+    include conf.d/grafana.redirect; 
 } 
