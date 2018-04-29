@@ -1,4 +1,4 @@
 server {
     server_name webdav;
-    include /etc/nginx/conf.d/webdav.redirect; 
+    include conf.d/webdav.redirect; 
 } 

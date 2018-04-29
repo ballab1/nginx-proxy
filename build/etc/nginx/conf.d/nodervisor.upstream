@@ -1,0 +1,3 @@
+upstream nodervisor {
+    server nodervisor:3001;
+} 

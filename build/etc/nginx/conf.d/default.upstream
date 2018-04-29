@@ -1,3 +1,3 @@
-    upstream default {
-        server nginx:443;
-    } 
+upstream default {
+    server nginx:443;
+} 
