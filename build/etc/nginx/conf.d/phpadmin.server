@@ -1,4 +1,0 @@
-server {
-    server_name phpadmin;
-    include conf.d/phpadmin.redirect; 
-} 
