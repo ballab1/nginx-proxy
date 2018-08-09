@@ -1,0 +1,3 @@
+upstream supervisorm {
+    server supervisorm:5000;
+} 
