@@ -1,4 +1,0 @@
-server {
-    server_name nodervisor;
-    include conf.d/nodervisor.redirect; 
-} 
