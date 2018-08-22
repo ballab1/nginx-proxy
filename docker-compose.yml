@@ -1,11 +1,11 @@
 version: '3.3'
 
 services:
-    nginx:
+    nginx_proxy:
         build:
             args:
                 CBF_VERSION: "${CBF_VERSION:-}"
-                CONTAINER_NAME: nginx
+                CONTAINER_NAME: nginx_proxy
                 FROM_BASE: ${DOCKER_REGISTRY:-}nginx_base/1.15.1:${BASE_TAG:-latest}
                 SSL_ALREADY_GENERATED: 'true'
             cache_from:
@@ -22,14 +22,17 @@ services:
                 container.git.commit: $CONTAINER_GIT_COMMIT
                 container.git.url: $CONTAINER_GIT_URL
                 container.origin: $CONTAINER_ORIGIN
-                container.original.name: nginx
-        container_name: nginx
+                container.original.name: nginx_proxy
+        container_name: nginx_proxy
         environment:
             DEBUG_TRACE: ${DEBUG_TRACE:-0}
+            PWD_PROTECTED: 'true'
             SUPERVISORD_PASS: $CFG_PASS
             SUPERVISORD_USER: $CFG_USER
+            USER_ID: $CFG_USER
+            USER_PASS: $CFG_PASS
         hostname: nginx
-        image: ${DOCKER_REGISTRY:-}nginx/1.15.1:${CONTAINER_TAG:-latest}
+        image: ${DOCKER_REGISTRY:-}nginx_proxy/1.15.1:${CONTAINER_TAG:-latest}
         logging:
             driver: json-file
             options:

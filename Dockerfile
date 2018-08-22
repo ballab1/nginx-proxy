@@ -2,7 +2,7 @@ ARG FROM_BASE=${DOCKER_REGISTRY:-}nginx_base/1.15.1:${BASE_TAG:-latest}
 FROM $FROM_BASE
 
 # name and version of this docker image
-ARG CONTAINER_NAME=nginx
+ARG CONTAINER_NAME=nginx_proxy
 # Specify CBF version to use with our configuration and customizations
 ARG CBF_VERSION
 
@@ -34,4 +34,4 @@ WORKDIR /var/www/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 #CMD ["$CONTAINER_NAME"]
-CMD ["nginx"]
+CMD ["nginx_proxy"]
