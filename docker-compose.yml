@@ -27,10 +27,10 @@ services:
         environment:
             DEBUG_TRACE: ${DEBUG_TRACE:-0}
             PWD_PROTECTED: 'true'
-            SUPERVISORD_PASS: $CFG_PASS
+            SUPERVISORD_PASS_FILE: /run/secrets/supervisord.pwd
             SUPERVISORD_USER: $CFG_USER
-            USER_ID: $CFG_USER
-            USER_PASS: $CFG_PASS
+            WEB_USER_ID: $CFG_USER
+            WEB_USER_PASS_FILE: /run/secrets/web_user.pwd
         hostname: nginx
         image: ${DOCKER_REGISTRY:-}${OS:-}nginx_proxy/1.15.1:${CONTAINER_TAG:-latest}
         logging:
@@ -42,6 +42,24 @@ services:
             - 80:80
             - 443:443
 #        restart: unless-stopped
+        secrets:
+            - supervisord.pwd
+            - web_user.pwd
+            - certificate.crt
+            - server.key
+            - dhparam.pem
         volumes:
             - ./vols/log:/var/log
             - ./vols/www:/var/www
+
+secrets:
+   supervisord.pwd:
+     file: ~/.inf/secrets/bobb.password
+   web_user.pwd:
+     file: ~/.inf/secrets/bobb.password
+   certificate.crt:
+     file: ~/.inf/ssl/server.crt
+   server.key:
+     file: ~/.inf/ssl/server.key
+   dhparam.pem:
+     file: ~/.inf/ssl/dhparam.pem
