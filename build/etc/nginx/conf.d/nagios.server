@@ -1,0 +1,5 @@
+server {
+    server_name nagios;
+    include conf.d/nagios.redirect; 
+    include conf.d/nconf.redirect; 
+} 

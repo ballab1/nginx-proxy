@@ -1,0 +1,3 @@
+upstream webdav {
+    server webdav:80;
+}  

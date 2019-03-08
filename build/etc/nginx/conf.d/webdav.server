@@ -1,0 +1,4 @@
+server {
+    server_name webdav;
+    include conf.d/webdav.redirect; 
+} 

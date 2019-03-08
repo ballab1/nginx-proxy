@@ -1,6 +1,0 @@
-
-    location ^~ /mycloud/ {
-        proxy_pass         http://mycloud;
-        proxy_redirect     default;
-        include /etc/nginx/proxy_params;
-    }

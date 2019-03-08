@@ -1,4 +1,0 @@
- 
-    upstream phpadmin {
-        server phpadmin:8002;
-    }  

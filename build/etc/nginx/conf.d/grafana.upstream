@@ -1,0 +1,3 @@
+upstream grafana {
+    server grafana:3000;
+}  
