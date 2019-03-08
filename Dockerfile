@@ -1,50 +1,37 @@
-FROM alpine:3.5
+ARG FROM_BASE=${DOCKER_REGISTRY:-}php5:${CONTAINER_TAG:-latest}
+FROM $FROM_BASE
 
-ARG TZ=UTC
+# name and version of this docker image
+ARG CONTAINER_NAME=nginx
+# Specify CBF version to use with our configuration and customizations
+ARG CBF_VERSION="${CBF_VERSION}"
 
-#
-# PACKAGES
-#
-COPY etc_nginx.tar /tmp/etc_nginx.tar
-COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
+# include our project files
+COPY build Dockerfile /tmp/
 
-RUN apk upgrade --update && \
-    apk add --no-cache \
-            bash \
-            nginx \
-            shadow \
-            openssl && \
-    apk add tzdata && cp /usr/share/zoneinfo/$TZ /etc/timezone && apk del tzdata && \
-    chmod u+rx,g+rx,o+rx,a-w /opt/docker-entrypoint.sh && \
-    usermod -u 10777 nginx && \
-    groupmod -g 10777 nginx && \
-    mkdir -p /www && \
-    mkdir -p /opt/ssl && \
-    chown -R nginx:nginx /opt/ && \
-    chown -R nginx:nginx /var/log/nginx/ && \
-    mkdir -p /nginx/tmp/ && \
-    chown -R nginx:nginx /nginx/ && \
-    rm -rf /etc/nginx/* && \
-    tar -xvf /tmp/etc_nginx.tar -C /etc/nginx && \
-    cd /etc/nginx/ssl/ && \
-    openssl genrsa -des3 -passout pass:x -out server.pass.key 2048 && \
-    openssl rsa -passin pass:x -in server.pass.key -out server.key && \
-    rm server.pass.key && \
-    openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048 && \
-    openssl req -new -key server.key -out server.csr -subj "/C=US/ST=Massachusetts/L=Mansfield/O=ballantyne.io/OU=docker.nginx.io/CN=ubuntu-s3" && \
-    openssl x509 -req -sha256 -days 300065 -in server.csr -signkey server.key -out server.crt
+# set to non zero for the framework to show verbose action scripts
+#    (0:default, 1:trace & do not cleanup; 2:continue after errors)
+ENV DEBUG_TRACE=0
 
 
-RUN ln -sf /dev/stdout /var/log/nginx/access.log  && \
-    ln -sf /dev/stderr /var/log/nginx/error.log
+ARG SSL_ALREADY_GENERATED
 
-#
-# RUN NGINX
-#
-#USER nginx
+
+# build content
+RUN set -o verbose \
+    && chmod u+rwx /tmp/build.sh \
+    && /tmp/build.sh "$CONTAINER_NAME" "$DEBUG_TRACE"
+RUN [ $DEBUG_TRACE != 0 ] || rm -rf /tmp/* 
+
+
+# export ports for HTTP and HTTPS
 EXPOSE 80
 EXPOSE 443
-VOLUME ["/www"]
-WORKDIR /www/
-ENTRYPOINT ["/opt/docker-entrypoint.sh"]
-CMD ["nginx", "-g", "daemon off;"]
+
+VOLUME ["/var/www"]
+WORKDIR /var/www/
+
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+#CMD ["$CONTAINER_NAME"]
+CMD ["nginx"]

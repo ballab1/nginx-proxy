@@ -1,4 +1,0 @@
- 
-    upstream nagios {
-        server nagios:8001;
-    }  
