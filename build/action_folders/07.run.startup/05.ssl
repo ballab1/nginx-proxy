@@ -4,10 +4,13 @@ declare -r __ssl=/etc/nginx/conf.d/default.ssl
 if [ -f /run/secrets/certificate.crt ]; then
     sed -Ei -e "s|^ssl_certificate\s+.*$|ssl_certificate /run/secrets/certificate.crt;|" "$__ssl" 
     sed -Ei -e "s|^ssl_trusted_certificate\s+.*$|ssl_trusted_certificate /run/secrets/certificate.crt;|" "$__ssl"
+    chmod 600 "$__ssl"
 fi
 if [ -f /run/secrets/server.key ]; then
     sed -Ei -e "s|^ssl_certificate_key\s+.*$|ssl_certificate_key /run/secrets/server.key;|" "$__ssl"
+    chmod 600 "$__ssl"
 fi
 if [ -f /run/secrets/dhparam.pem ]; then
     sed -Ei -e "s|^ssl_dhparam\s+.*$|ssl_dhparam /run/secrets/dhparam.pem;|" "$__ssl"
+    chmod 600 "$__ssl"
 fi

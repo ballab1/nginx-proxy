@@ -1,3 +1,5 @@
+ssl on;
+
 # refer to https://gist.github.com/plentz/6737338 for details on SSL and security settings
 ssl_certificate ssl/server.crt;
 ssl_certificate_key ssl/server.key;
