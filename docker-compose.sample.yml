@@ -1,10 +1,13 @@
 version: '3.3'
 
-# repo: https://github/ballab1/nginx-proxy.git
+# this is a SAMPLE file. Do not use for build or deployments
+
+# use the following to restrict which OS this is built on
 # containerOS: alpine
 
 services:
     nginx-proxy:
+# build arguments, only needed for building
         build:
             args:
                 CBF_VERSION: ${CBF_VERSION:-}
@@ -26,11 +29,50 @@ services:
                 container.git.url: $CONTAINER_GIT_URL
                 container.origin: $CONTAINER_ORIGIN
                 container.original.name: nginx-proxy
-                container.parent: $CONTAINER_PARENT
                 version.cbf: $CBF_VERSION
         container_name: nginx-proxy
+# common arguments, for building and deploy 
         environment:
             DEBUG_TRACE: ${DEBUG_TRACE:-0}
             PWD_PROTECTED: 'true'
+            SUPERVISORD_PASS_FILE: /run/secrets/supervisord.pwd
+            SUPERVISORD_USER: $CFG_USER
+            WEB_USER_ID: $CFG_USER
+            WEB_USER_PASS_FILE: /run/secrets/web_user.pwd
         hostname: nginx
         image: ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/nginx-proxy/${NGINX_VERSION:-1.15.3}:${CONTAINER_TAG:-latest}
+# deploy arguments, not needed for building
+        logging:                              # limit size of logs @runtime so that we do not run out of space 
+            driver: json-file
+            options:
+                max-file: "3"
+                max-size: "10m"
+        ports:                                #ports exposed 
+            - 80:80
+            - 443:443
+        restart: unless-stopped               # only use when building a 'service container'
+# references to 'secrets' section below
+        secrets:
+            - supervisord.pwd
+            - web_user.pwd
+            - certificate.crt
+            - server.key
+            - dhparam.pem
+        volumes:
+# application logs
+            - ./vols/log:/var/log
+# exposed web folder
+            - ./vols/www:/var/www
+
+secrets:
+# location of secrets files in host filesystem
+   supervisord.pwd:
+     file: ~/.inf/secrets/bobb.password
+   web_user.pwd:
+     file: ~/.inf/secrets/bobb.password
+   certificate.crt:
+     file: ~/.inf/ssl/server.crt
+   server.key:
+     file: ~/.inf/ssl/server.key
+   dhparam.pem:
+     file: ~/.inf/ssl/dhparam.pem
