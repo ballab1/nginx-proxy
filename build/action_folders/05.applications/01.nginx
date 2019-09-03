@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# remove default homepage so we can copy our customized version over
+[ ! -e /var/www/index.html ] || rm /var/www/index.html
+
+sed -i -e '24 i    return 301 $scheme://www.new-name.com$request_uri;' /etc/nginx/conf.d/default.server

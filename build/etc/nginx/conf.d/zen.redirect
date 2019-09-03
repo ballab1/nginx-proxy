@@ -1,27 +1,88 @@
+location @zenphoto {
+
+    # experimental rss rules
+    rewrite ^/photos/index\.php\?^rss-(.*)&(.*)    /photos/index.php?rss=$1 last;
+    rewrite ^/photos/index\.php\?^rss-(.*)$        /photos/index.php?rss=$1 last;
+
+    rewrite ^/photos/index\.php$ /photos/index.php last;
+    rewrite ^/photos/(.*)/page/([A-Za-z0-9_\-]+)/?$ /photos/index.php?album=$1&page=$2 last;
+
+    # Images and stuff
+    rewrite "^/photos/(.*)/image/(thumb|[0-9]{1,4})/([^/\\\]+)$"  /photos/zp-core/i.php?a=$1&i=$3&s=$2  last;
+    rewrite ^/photos/(.*)/image/([^/\\\]+)$  /photos/zp-core/i.php?a=$1&i=$2  last;
+    rewrite "^/photos/(.*)/album/(thumb|[0-9]{1,4})/([^/\\\]+)$"  /photos/zp-core/i.php?a=$1&i=$3&s=$2&album=true  last;
+
+    # Catch all for unknown stuff
+    rewrite ^/photos/(.*)/?$ /photos/index.php?album=$1 last;
+}
+
+location @albums {
+     rewrite ^/photos/albums/?(.+/?)?$  /photos/$1  redirect;
+}
+
+# Admin pages
+location /photos/admin {
+    rewrite ^/photos/admin/?$ /photos/zp-core/admin.php redirect;
+}
+
+location /photos/albums {
+    try_files $uri @albums;
+}
+
+# Tiny URLs
+location /photos/tiny {
+    rewrite ^/photos/tiny/([0-9]+)/?$ /photos/index.php?p=$1&t last;
+}
+
+# Page
+location /photos/page {
+    rewrite ^/photos/page/([0-9]+)/?$ /photos/index.php?page=$1 last;
+    rewrite ^/photos/page/([A-Za-z0-9\-_]+)/?$ /photos/index.php?p=$1 last;
+    rewrite ^/photos/page/([A-Za-z0-9_\-]+)/([0-9]+)/?$ /photos/index.php?p=$1&page=$2 last;
+}
+
+# Pages
+location /photos/pages {
+    rewrite ^/photos/pages/?$ /photos/index.php?p=pages last;
+    rewrite ^/photos/pages/(.*)/?$ /photos/index.php?p=pages&title=$1 last;
+}
+
+# Search
+location /photos/page/search {
+    rewrite ^/photos/page/search/fields([0-9]+)/(.*)/([0-9]+)/?$ /photos/index.php?p=search&searchfields=$1&words=$2&page=$3 last;
+    rewrite ^/photos/page/search/fields([0-9]+)/(.*)/?$ /photos/index.php?p=search&searchfields=$1&words=$2 last;
+    rewrite ^/photos/page/search/archive/(.*)/([0-9]+)/?$ /photos/index.php?p=search&date=$1&page=$2 last;
+    rewrite ^/photos/page/search/archive/(.*)/?$ /photos/index.php?p=search&date=$1 last;
+    rewrite ^/photos/page/search/tags/(.*)/([0-9]+)/?$ /photos/index.php?p=search&searchfields=tags&words=$1&page=$2 last;
+    rewrite ^/photos/page/search/tags/(.*)/?$ /photos/index.php?p=search&searchfields=tags&words=$1 last;
+    rewrite ^/photos/page/search/(.*)/([0-9]+)/?$ /photos/index.php?p=search&words=$1&page=$2 last;
+    rewrite ^/photos/page/search/(.*)/?$ /photos/index.php?p=search&words=$1 last;
+}
+
+# News
+location /photos/news {
+    rewrite ^/photos/news/?$ /photos/index.php?p=news last;
+    rewrite ^/photos/news/([0-9]+)/?$ /photos/index.php?p=news&page=$1 last;
+    rewrite ^/photos/news/category/(.*)/([0-9]+)/?$ /photos/index.php?p=news&category=$1&page=$2 last;
+    rewrite ^/photos/news/category/(.*)/?$ /photos/index.php?p=news&category=$1 last;
+    rewrite ^/photos/news/archive/(.*)/([0-9]+)/?$ /photos/index.php?p=news&date=$1&page=$2 last;
+    rewrite ^/photos/news/archive/(.*)/?$ /photos/index.php?p=news&date=$1 last;
+    rewrite ^/photos/news/(.*)/?$ /photos/index.php?p=news&title=$1 last;
+}
+
 location /photos/ {
-    proxy_pass http://zen/;
+    proxy_pass http://zen/photos/;
     proxy_set_header   Host             $host:$server_port;
     proxy_set_header   X-Real-IP        $remote_addr;
     proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+    try_files $uri $uri/ @zenphoto;
 }
 
 location = /photos {
-    proxy_pass http://zen/;
+    proxy_pass http://zen/photos/;
     proxy_set_header   Host             $host:$server_port;
     proxy_set_header   X-Real-IP        $remote_addr;
     proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+    try_files $uri $uri/ @zenphoto;
 }
 
-location /zen/ {
-    proxy_pass http://zen/;
-    proxy_set_header   Host             $host:$server_port;
-    proxy_set_header   X-Real-IP        $remote_addr;
-    proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
-}
-
-location = /zen {
-    proxy_pass http://zen/;
-    proxy_set_header   Host             $host:$server_port;
-    proxy_set_header   X-Real-IP        $remote_addr;
-    proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
-}
