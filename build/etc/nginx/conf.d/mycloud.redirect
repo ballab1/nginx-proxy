@@ -2,7 +2,8 @@ location /mycloud {
     rewrite /mycloud/(.*)$ /UI/$1; 
     try_files 301 $uri $uri/ $uri;
 }
+
 location /mycloud/ {
-    rewrite /mycloud/(.*)$ /UI/$1; 
+    rewrite /mycloud/(.*)$ /UI/$1;
     try_files 301 $uri $uri/ $uri;
 }
