@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [ -d /etc/nginx/proxy.conf ]; then
+    # copy user defined proxies into running config dir
+    cp /etc/nginx/proxy.conf/* /etc/nginx/conf.d
+fi

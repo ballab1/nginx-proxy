@@ -1,6 +1,0 @@
-server {
-    server_name nagios;
-    underscores_in_headers on;
-    include conf.d/nagios.redirect; 
-    include conf.d/nconf.redirect; 
-} 

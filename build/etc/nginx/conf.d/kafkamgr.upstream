@@ -1,3 +1,0 @@
-upstream kafkamgr {
-    server kafkamgr:9000;
-}  

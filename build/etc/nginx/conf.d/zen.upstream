@@ -1,3 +1,0 @@
-upstream zen {
-    server zen:80;
-}  

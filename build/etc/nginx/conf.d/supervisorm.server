@@ -1,4 +1,0 @@
-server {
-    server_name supervisorm;
-    include conf.d/supervisorm.redirect; 
-} 

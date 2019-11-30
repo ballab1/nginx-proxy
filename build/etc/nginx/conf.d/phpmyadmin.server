@@ -1,5 +1,0 @@
-server {
-    server_name phpmyadmin;
-    underscores_in_headers on;
-    include conf.d/phpmyadmin.redirect; 
-} 

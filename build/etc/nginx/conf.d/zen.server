@@ -1,4 +1,0 @@
-server {
-    server_name     zen;
-    include conf.d/zen.redirect; 
-}

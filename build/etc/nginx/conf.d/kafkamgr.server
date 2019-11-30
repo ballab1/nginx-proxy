@@ -1,4 +1,0 @@
-server {
-    server_name     kafkamgr;
-    include conf.d/kafkamgr.redirect; 
-}

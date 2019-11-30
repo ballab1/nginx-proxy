@@ -1,4 +1,0 @@
-upstream jenkins {
-    keepalive 32; # keepalive connections
-    server jenkins:8080;
-} 
