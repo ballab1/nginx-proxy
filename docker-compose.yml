@@ -9,12 +9,12 @@ services:
             args:
                 CBF_VERSION: ${CBF_VERSION:-}
                 CONTAINER_NAME: nginx-proxy
-                FROM_BASE: ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.18.0}:${BASE_TAG:-latest}
+                FROM_BASE: ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.20.0}:${BASE_TAG:-latest}
                 SSL_ALREADY_GENERATED: 'true'
             cache_from:
-                - ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}thirdparty/${CONTAINER_OS:-alpine}:${OS_VERSION:-3.12.4}
+                - ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}thirdparty/${CONTAINER_OS:-alpine}:${OS_VERSION:-3.13.5}
                 - ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/supervisord:${BASE_TAG:-latest}
-                - ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.18.0}:${BASE_TAG:-latest}
+                - ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.20.0}:${BASE_TAG:-latest}
 #                - ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/php/${PHP5_VERSION:-5.6.40-r0}:${BASE_TAG:-latest}
             context: .
             dockerfile: Dockerfile
@@ -33,4 +33,4 @@ services:
             DEBUG_TRACE: ${DEBUG_TRACE:-0}
             PWD_PROTECTED: 'true'
         hostname: nginx
-        image: ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/nginx-proxy/${NGINX_VERSION:-1.18.0}:${CONTAINER_TAG:-latest}
+        image: ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/nginx-proxy/${NGINX_VERSION:-1.20.0}:${CONTAINER_TAG:-latest}
