@@ -1,4 +1,4 @@
-ARG FROM_BASE=${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.20.1}:${BASE_TAG:-latest}
+ARG FROM_BASE=${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.20.1}:${BASE_TAG:-latest}
 FROM $FROM_BASE
 
 # name and version of this docker image
