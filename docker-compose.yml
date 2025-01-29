@@ -11,7 +11,7 @@ services:
                 FROM_BASE: ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.26.2}:${BASE_TAG:-latest}
                 SSL_ALREADY_GENERATED: 'true'
             cache_from:
-                - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}docker.io/${CONTAINER_OS:-alpine}:${OS_VERSION:-3.20.3}
+                - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}docker.io/${CONTAINER_OS:-alpine}:${OS_VERSION:-3.21.2}
                 - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/supervisord:${BASE_TAG:-latest}
                 - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.26.2}:${BASE_TAG:-latest}
 #                - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/php/${PHP5_VERSION:-5.6.40-r0}:${BASE_TAG:-latest}
