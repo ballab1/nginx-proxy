@@ -12,12 +12,12 @@ services:
             args:
                 CBF_VERSION: ${CBF_VERSION:-}
                 CONTAINER_NAME: nginx-proxy
-                FROM_BASE: ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.15.3}:${BASE_TAG:-latest}
+                FROM_BASE: ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.26.3}
                 SSL_ALREADY_GENERATED: 'true'
             cache_from:
                 - ${DOCKER_REGISTRY:-ubuntu-s2:5000/}thirdparty/${CONTAINER_OS:-alpine}:${OS_VERSION:-3.12.4}
                 - ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/supervisord:${BASE_TAG:-latest}
-                - ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.15.3}:${BASE_TAG:-latest}
+                - ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.26.3}
 #                - ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/php/${PHP5_VERSION:-5.6.40-r0}:${BASE_TAG:-latest}
             context: .
             dockerfile: Dockerfile
@@ -40,7 +40,7 @@ services:
             WEB_USER_ID: $CFG_USER
             WEB_USER_PASS_FILE: /run/secrets/web_user.pwd
         hostname: nginx
-        image: ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/nginx-proxy/${NGINX_VERSION:-1.15.3}:${CONTAINER_TAG:-latest}
+        image: ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/nginx-proxy/${NGINX_VERSION:-1.26.3}
 # deploy arguments, not needed for building
         logging:                              # limit size of logs @runtime so that we do not run out of space 
             driver: json-file
