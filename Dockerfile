@@ -1,4 +1,4 @@
-ARG FROM_BASE=${DOCKER_REGISTRY:-/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.26.3}
+ARG FROM_BASE=${DOCKER_REGISTRY:-}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.28.0}
 FROM $FROM_BASE
 
 # name and version of this docker image
